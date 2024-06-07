@@ -82,41 +82,4 @@ export default defineEventHandler(async (event) => {
       Accept: "application/vnd.ims.lti-nrps.v2.membershipcontainer+json",
     },
   });
-
-  //   {
-  //     "id": "https://sandbox.moodledemo.net/mod/lti/services.php/CourseSection/10/bindings/7/memberships",
-  //     "context": {
-  //         "id": "10",
-  //         "label": "test7",
-  //         "title": "test"
-  //     },
-  //     "members": [
-  //         {
-  //             "status": "Active",
-  //             "roles": [
-  //                 "Instructor"
-  //             ],
-  //             "user_id": "5",
-  //             "lis_person_sourcedid": "",
-  //             "name": "Max Manager",
-  //             "given_name": "Max",
-  //             "family_name": "Manager",
-  //             "email": "manager@moodle.a",
-  //             "ext_user_username": "manager"
-  //         },
-  //         {
-  //             "status": "Active",
-  //             "roles": [
-  //                 "Learner"
-  //             ],
-  //             "user_id": "4",
-  //             "lis_person_sourcedid": "",
-  //             "name": "Sam Student",
-  //             "given_name": "Sam",
-  //             "family_name": "Student",
-  //             "email": "student@moodle.a",
-  //             "ext_user_username": "student"
-  //         },
-  //     ]
-  // }
 });

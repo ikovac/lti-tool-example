@@ -93,29 +93,6 @@ export default defineEventHandler(async (event) => {
     }
   );
 
-  // const registrationResponse = {
-  //   client_id: "wHTqucAq5B2slOC",
-  //   response_types: ["id_token"],
-  //   jwks_uri: "https://653t9qrh-3000.euw.devtunnels.ms/keys",
-  //   initiate_login_uri: "https://653t9qrh-3000.euw.devtunnels.ms/login",
-  //   grant_types: ["client_credentials", "implicit"],
-  //   redirect_uris: ["https://653t9qrh-3000.euw.devtunnels.ms"],
-  //   application_type: "web",
-  //   token_endpoint_auth_method: "private_key_jwt",
-  //   client_name: "Nuxt LTI Tool",
-  //   logo_uri: "https://nuxtjs.ir/logos/nuxt-icon-white.png",
-  //   scope:
-  //     "https://purl.imsglobal.org/spec/lti-ags/scope/score https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly https://purl.imsglobal.org/spec/lti-ags/scope/lineitem.readonly https://purl.imsglobal.org/spec/lti-ags/scope/lineitem https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly",
-  //   "https://purl.imsglobal.org/spec/lti-tool-configuration": {
-  //     version: "1.3.0",
-  //     deployment_id: "1",
-  //     target_link_uri: "https://653t9qrh-3000.euw.devtunnels.ms",
-  //     domain: "653t9qrh-3000.euw.devtunnels.ms",
-  //     description: "Example Nuxt LTI Tool for testing purposes",
-  //     claims: ["sub", "iss", "name", "family_name", "given_name", "email"],
-  //   },
-  // };
-
   const storage = usePlatformStorage();
   const platformName =
     configuration["https://purl.imsglobal.org/spec/lti-platform-configuration"]
