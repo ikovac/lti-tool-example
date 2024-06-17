@@ -94,7 +94,7 @@ $fetch(configuration.registration_endpoint, {
 });
 ```
 
-1. The platform responds with a registration response that looks something like this:
+5. The platform responds with a registration response that looks something like this:
 
 ```tsx
 const registrationResponse = {
@@ -121,8 +121,8 @@ const registrationResponse = {
 };
 ```
 
-1. After receiving the registration response, the tool first generates a new platform key pair and then stores the platform data in its internal storage.
-2. Finally, the tool sends an HTML response to signal to the platform that the registration process is complete. Since the registration is performed inside an iframe, the tool responds with a script containing a `postMessage` call to send a message to the platform.
+6. After receiving the registration response, the tool first generates a new platform key pair and then stores the platform data in its internal storage.
+7. Finally, the tool sends an HTML response to signal to the platform that the registration process is complete. Since the registration is performed inside an iframe, the tool responds with a script containing a `postMessage` call to send a message to the platform.
 
 ```html
 <script>
@@ -193,7 +193,7 @@ Before describing the deep linking flow, let's first focus on the launch flow, a
 
 Clicking on LTI Tool Demo we are initiating launch flow
 
-1. Upon launching the tool, the platform sends a `GET` or `POST` request to the tool’s login route. The platform knows the tool’s login route because it was specified during the registration process in the `registrationRequest['initiate_login_uri']`. In the case of Moodle, the `POST` method is used, and the body contains the following parameters:
+2. Upon launching the tool, the platform sends a `GET` or `POST` request to the tool’s login route. The platform knows the tool’s login route because it was specified during the registration process in the `registrationRequest['initiate_login_uri']`. In the case of Moodle, the `POST` method is used, and the body contains the following parameters:
 
 ```tsx
 type LoginParams = {
@@ -232,7 +232,7 @@ type LoginParams = {
 
 The tool also sets a state cookie to verify that the browser initiating the process is the same one completing it.
 
-1. After setting the state cookie, the tool responds with a redirect to the platform's authentication endpoint, which was stored during the registration step. The `GET` request to the authentication endpoint contains the following query parameters:
+3. After setting the state cookie, the tool responds with a redirect to the platform's authentication endpoint, which was stored during the registration step. The `GET` request to the authentication endpoint contains the following query parameters:
 
 ```tsx
 const authRequestQuery = {
@@ -257,8 +257,8 @@ As described above, we return `login_hint` and `lti_message_hint` from the reque
 
 The state is the same value set in the cookie.
 
-1. The platform needs to validate the tool's request by ensuring that the `login_hint` matches the current session, the `redirect_uri` is among the allowed `redirect_uris` specified during the registration process, the scope is present and set to `openid`, etc.
-2. After successful request verification, the platform responds with an auto-posting form containing `id_token` and `state`. An example`id_token` payload:
+4. The platform needs to validate the tool's request by ensuring that the `login_hint` matches the current session, the `redirect_uri` is among the allowed `redirect_uris` specified during the registration process, the scope is present and set to `openid`, etc.
+5. After successful request verification, the platform responds with an auto-posting form containing `id_token` and `state`. An example`id_token` payload:
 
 ```tsx
 {
@@ -323,8 +323,8 @@ Notice how the `https://purl.imsglobal.org/spec/lti/claim/message_type` claims i
 
 The browser then performs a `POST` request to the `/launch` route specified in the registration process as `target_link_uri`.
 
-1. The tool needs to first verify the launch request. This includes validating the `id_token`, retrieving the state from the cookie and comparing it with the `state` from the request body, and ensuring the nonce has not already been used. For token validation, the tool will need to fetch the matching public key from the platform’s `jwks_uri` stored during the registration process.
-2. Finally, the tool can redirect to the actual resource. It is advisable to use the same URL for every launch flow and store resource identifiers inside a custom claim in the `id_token`. As shown in the code, we stored `resource_id` inside the `https://purl.imsglobal.org/spec/lti/claim/custom` token claim.
+6. The tool needs to first verify the launch request. This includes validating the `id_token`, retrieving the state from the cookie and comparing it with the `state` from the request body, and ensuring the nonce has not already been used. For token validation, the tool will need to fetch the matching public key from the platform’s `jwks_uri` stored during the registration process.
+7. Finally, the tool can redirect to the actual resource. It is advisable to use the same URL for every launch flow and store resource identifiers inside a custom claim in the `id_token`. As shown in the code, we stored `resource_id` inside the `https://purl.imsglobal.org/spec/lti/claim/custom` token claim.
 
 ## Deep linking flow
 
@@ -350,9 +350,9 @@ The browser then performs a `POST` request to the `/launch` route specified in t
 }
 ```
 
-1. After the deep linking launch is initiated, the tool redirects to or displays a content selection page where users can select a resource.
-2. The user selects a resource to be used for future launches.
-3. The tool generates a deep linking message response in the form of a JWT token. The JWT token is signed with the tool's private key for that platform.
+2. After the deep linking launch is initiated, the tool redirects to or displays a content selection page where users can select a resource.
+3. The user selects a resource to be used for future launches.
+4. The tool generates a deep linking message response in the form of a JWT token. The JWT token is signed with the tool's private key for that platform.
 
 ```tsx
 const jwtBody = {
@@ -379,7 +379,7 @@ const jwtBody = {
 };
 ```
 
-1. The tool responds with an auto-posting form containing the previously generated JWT.
+5. The tool responds with an auto-posting form containing the previously generated JWT.
 
 The response looks like this:
 
@@ -392,9 +392,9 @@ return `<form id="ltijs_submit" style="display: none;" action="${returnUrl}" met
   </script>`;
 ```
 
-1. When the platform receives a `POST` request containing the tool’s JWT, it must verify the token by fetching the tool's public keys with a `GET` request to the tool’s `jwks_uri`. The `jwks_uri` was specified during the registration process, so the platform knows where to retrieve the public keys.
-2. The platform validates the JWT token.
-3. After successful validation, the deep linking process is completed and the modal is closed.
+6. When the platform receives a `POST` request containing the tool’s JWT, it must verify the token by fetching the tool's public keys with a `GET` request to the tool’s `jwks_uri`. The `jwks_uri` was specified during the registration process, so the platform knows where to retrieve the public keys.
+7. The platform validates the JWT token.
+8. After successful validation, the deep linking process is completed and the modal is closed.
 
 At this point, we should have a better understanding of the deep linking and launch flows. These processes allow the platform to select which tool resource to display and then display it when an LTI launch is triggered.
 
@@ -423,7 +423,7 @@ const token = jwt.sign(
 );
 ```
 
-1. The tool sends a POST request to the platform’s `token_endpoint` that was specified during the registration process. The request body should include the following:
+2. The tool sends a POST request to the platform’s `token_endpoint` that was specified during the registration process. The request body should include the following:
 
 ```tsx
   const body = {
@@ -438,9 +438,9 @@ where the `token` is signed JWT from the previous step.
 
 The scope for which the access token is issued should be minimal, covering only the services for which the token will be used. For instance, a token with the scope [`https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly`](https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly) should only be used for making requests to the Names and Role Provisioning Service, which handles course participant information.
 
-1. Upon receiving the request, the platform retrieves the tool’s public key by sending a `GET` request to the tool’s `jwks_uri`, as specified in the registration process.
-2. The platform then verifies the token.
-3. After successful verification, the platform issues an authorization token, which will then be used to access the requested services.
+3. Upon receiving the request, the platform retrieves the tool’s public key by sending a `GET` request to the tool’s `jwks_uri`, as specified in the registration process.
+4. The platform then verifies the token.
+5. After successful verification, the platform issues an authorization token, which will then be used to access the requested services.
 
 ## Names and Role Provisioning Service
 
